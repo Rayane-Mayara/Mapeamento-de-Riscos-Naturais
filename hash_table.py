@@ -1,50 +1,60 @@
-class HashTable:
-
-    def __init__(self):
-        self.tabela = [[] for _ in range(10)]
-
-    def hash(self, rua):
-        soma = 0
-
-        for letra in rua:
-            soma += ord(letra)
-
-        return soma % 10
-
-    def inserir(self, rua, risco):
-
-        indice = self.hash(rua)
-
-        self.tabela[indice].append(
-            [rua, risco]
-        )
-
-    def buscar(self, rua):
-
-        indice = self.hash(rua)
-
-        for item in self.tabela[indice]:
-
-            if item[0] == rua:
-                return item[1]
-
-        return "Rua não encontrada"
-
-    def mostrar(self):
-
-        for i in range(10):
-            print(i, "->", self.tabela[i])
+class ElementoHash:
+    def __init__(self, chave, valor):
+        self.chave = chave
+        self.valor = valor
+        self.proximo = None
 
 
-areas = HashTable()
+class TabelaHash:
+    def __init__(self, tamanho=10):
+        self.tamanho = tamanho
+        self.baldes = [None] * tamanho
+
+    def _funcao_hash(self, chave):
+        soma_ascii = sum(ord(caractere) for caractere in str(chave))
+        return soma_ascii % self.tamanho
+
+    def inserir(self, chave, valor):
+        indice = self._funcao_hash(chave)
+        novo_elemento = ElementoHash(chave, valor)
+
+        if self.baldes[indice] is None:
+            self.baldes[indice] = novo_elemento
+            return
+
+        atual = self.baldes[indice]
+
+        while atual:
+            if atual.chave == chave:
+                atual.valor = valor
+                return
+
+            if atual.proximo is None:
+                break
+
+            atual = atual.proximo
+
+        atual.proximo = novo_elemento
+
+    def buscar(self, chave):
+        indice = self._funcao_hash(chave)
+        atual = self.baldes[indice]
+
+        while atual:
+            if atual.chave == chave:
+                return atual.valor
+            atual = atual.proximo
+
+        return "Rua não cadastrada"
 
 
-areas.inserir("Rua A", "Alto")
-areas.inserir("Rua B", "Baixo")
-areas.inserir("Rua C", "Medio")
-areas.inserir("Rua D", "Alto")
+mapa_risco = TabelaHash()
 
+mapa_risco.inserir("Rua da Aurora", "Crítico")
+mapa_risco.inserir("Centro", "Baixo")
+mapa_risco.inserir("Vila Primavera", "Alto")
 
-print(areas.buscar("Rua B"))
-
-areas.mostrar()
+print(mapa_risco.buscar("Rua da Aurora"))
+print(mapa_risco.buscar("Centro"))
+print(mapa_risco.buscar("Vila Primavera"))
+print(mapa_risco.buscar("Rua Nova"))
