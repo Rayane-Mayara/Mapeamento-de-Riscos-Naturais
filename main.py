@@ -5,7 +5,7 @@
 #              Saulo Martins, Thaissa Aparecida
 # ==============================================================================
 
-import sys
+
 
 class No:
     """Nó base utilizado para a construção de estruturas encadeadas."""
