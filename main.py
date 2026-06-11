@@ -1,22 +1,23 @@
 # ==============================================================================
 # SISTEMA DE COMANDO E MONITORAMENTO TÁTICO: PENEDO
-# Disciplina: Programação 2
-# Integrantes: Guilherme, Rayane Mayara, Saulo,Thaissa, Vadson
+# Disciplina: Programação 2 / Estruturas de Dados
+# Integrantes: Guilherme, Rayane Mayara, Saulo, Thaissa, Vadson
 # ==============================================================================
 
 import sys
 
-
 class No:
+    """Nó base utilizado para a construção de estruturas encadeadas."""
     def __init__(self, valor=None, proximo=None):
         self.valor = valor     
         self.proximo = proximo 
 
     def __str__(self):
         return str(self.valor)
-    
+
 
 class Ocorrencia:
+    """Objeto auxiliar para encapsulamento e tráfego dos dados dos chamados."""
     def __init__(self, id, logradouro, nivel_risco):
         self.id = id
         self.logradouro = logradouro
@@ -59,7 +60,8 @@ class Queue:
         self.length = self.length - 1
         return valor
 
-# 2. ALTERAÇÕES DE ALERTA
+
+# 2. HISTÓRICO DE ALTERAÇÕES 
 
 class Stack:
     def __init__(self):
@@ -79,14 +81,14 @@ class Stack:
         return (self.items == [])
 
 
-# 3. MAPEAMENTO DE RISCO
-
+# 3. MAPEAMENTO DE RISCO 
 
 class ElementoHash:
     def __init__(self, chave, valor):
         self.chave = chave    
         self.valor = valor    
         self.proximo = None   
+
 
 class TabelaHash:
     def __init__(self, tamanho=10):
@@ -127,13 +129,13 @@ class TabelaHash:
 
 # 4. BUSCA DE LAUDOS 
 
-
 class NoArvore:
     def __init__(self, protocolo, laudo_texto):
-        self.protocolo = protocolo    # Chave de busca (ID numérico)
-        self.valor = laudo_texto      # Alinhado com termo 'valor/carga' do PDF
+        self.protocolo = protocolo  
+        self.valor = laudo_texto      
         self.esquerda = None          
         self.direita = None           
+
 
 class ArvoreLaudos:
     def __init__(self):
@@ -167,7 +169,8 @@ class ArvoreLaudos:
             return self._buscar_recursivo(no_atual.esquerda, protocolo)
         return self._buscar_recursivo(no_atual.direita, protocolo)
 
-# 5. ROTAS URBANAS 
+
+# 5. ROTAS URBANAS
 
 class GrafoPenedo:
     def __init__(self):
@@ -186,6 +189,7 @@ class GrafoPenedo:
             self.malha_viaria[destino].append(origem)
 
     def bloquear_rua(self, origem, destino):
+        # Correção aqui: alterado de malia_viaria para malha_viaria
         if origem in self.malha_viaria and destino in self.malha_viaria[origem]:
             self.malha_viaria[origem].remove(destino)
         if destino in self.malha_viaria and origem in self.malha_viaria[destino]:
@@ -216,7 +220,7 @@ class GrafoPenedo:
         return None
 
 
-# INTERFACE
+# INTERFACE DO TERMINAL 
 
 class SistemaDefesaCivil:
     def __init__(self):
@@ -250,10 +254,11 @@ class SistemaDefesaCivil:
             print("="*50)
             print("1. Registrar Novo Chamado de Emergência")
             print("2. Consultar Nível de Risco por Logradouro")
-            print("3. Consultar Arquivo de Laudos Técnicos")
-            print("4. Despachar Equipe (Calcular Rota de Socorro)")
-            print("5. Interditar Via (Alagamento/Desabamento)")
-            print("6. Desfazer Última Ação do Operador (Undo)")
+            print("3. Cadastrar Novo Laudo Técnico")
+            print("4. Consultar Arquivo de Laudos Técnicos")
+            print("5. Despachar Equipe (Calcular Rota de Socorro)")
+            print("6. Interditar Via (Alagamento/Desabamento)")
+            print("7. Desfazer Última Ação do Operador (Undo)")
             print("0. Sair do Sistema")
             print("="*50)
             
@@ -282,16 +287,26 @@ class SistemaDefesaCivil:
 
             elif opcao == "3":
                 try:
+                    protocolo = int(input("Digite o número do protocolo do laudo (Ex: 202602): "))
+                    texto = input("Digite o parecer técnico do laudo: ")
+                    self.arquivo_laudos.inserir(protocolo, texto)
+                    print(f"Laudo #{protocolo} arquivado com sucesso na Árvore!")
+                    self.historico_logs.push(f"Laudo #{protocolo} cadastrado")
+                except ValueError:
+                    print("Erro: O protocolo deve ser um número inteiro.")
+
+            elif opcao == "4":
+                try:
                     protocolo = int(input("Digite o número do protocolo do laudo (Ex: 202601): "))
                     no_laudo = self.arquivo_laudos.buscar(protocolo)
                     if no_laudo:
-                        print(f"\nDocumento Localizado:\n{no_laudo.valor}") 
+                        print(f"\nDocumento Localizado na Árvore:\n{no_laudo.valor}") 
                     else:
                         print("Protocolo não encontrado no arquivo digital.")
                 except ValueError:
                     print("Erro: O protocolo deve ser um número inteiro.")
 
-            elif opcao == "4":
+            elif opcao == "5":
                 chamado = self.fila_chamados.remove() 
                 if chamado:
                     print(f"CHAMADO EM ATENDIMENTO: #{chamado.id} - {chamado.logradouro}")
@@ -305,13 +320,13 @@ class SistemaDefesaCivil:
                 else:
                     print("Central tranquila. Nenhuma ocorrência na fila de espera.")
 
-            elif opcao == "5":
+            elif opcao == "6":
                 origem = input("Ponto de Origem do bloqueio: ")
                 destino = input("Ponto de Destino do bloqueio: ")
                 self.malha_viaria.bloquear_rua(origem, destino)
                 self.historico_logs.push(f"Bloqueio de via entre {origem} e {destino}")
 
-            elif opcao == "6":
+            elif opcao == "7":
                 acao_desfeita = self.historico_logs.pop() 
                 if acao_desfeita:
                     print(f"Revertendo com sucesso a ação: '{acao_desfeita}'")
