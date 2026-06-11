@@ -259,7 +259,7 @@ class SistemaDefesaCivil:
             print("4. Consultar Arquivo de Laudos Técnicos")
             print("5. Despachar Equipe (Calcular Rota de Socorro)")
             print("6. Interditar Via (Alagamento/Desabamento)")
-            print("7. Desfazer Última Ação do Operador (Undo)")
+            print("7. Desfazer Última Ação do Operador")
             print("0. Sair do Sistema")
             print("="*50)
             
