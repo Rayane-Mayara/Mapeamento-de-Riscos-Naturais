@@ -190,7 +190,7 @@ class GrafoPenedo:
             self.malha_viaria[destino].append(origem)
 
     def bloquear_rua(self, origem, destino):
-        # Correção aqui: alterado de malia_viaria para malha_viaria
+    
         if origem in self.malha_viaria and destino in self.malha_viaria[origem]:
             self.malha_viaria[origem].remove(destino)
         if destino in self.malha_viaria and origem in self.malha_viaria[destino]:
