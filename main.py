@@ -8,7 +8,7 @@
 
 
 class No:
-    """Nó base utilizado para a construção de estruturas encadeadas."""
+    
     def __init__(self, valor=None, proximo=None):
         self.valor = valor     
         self.proximo = proximo 
@@ -18,7 +18,7 @@ class No:
 
 
 class Ocorrencia:
-    """Objeto auxiliar para encapsulamento e tráfego dos dados dos chamados."""
+    
     def __init__(self, id, logradouro, nivel_risco):
         self.id = id
         self.logradouro = logradouro
