@@ -1,12 +1,11 @@
 # ==============================================================================
 # SISTEMA DE COMANDO E MONITORAMENTO TÁTICO: PENEDO
-# Disciplina: Programação 2 / Estruturas de Dados
-# Integrantes: Rayane, Thaissa, Saulo, Guilherme e Vadson
+# Disciplina: Programação 2
+# Integrantes: Guilherme, Rayane Mayara, Saulo,Thaissa, Vadson
 # ==============================================================================
 
 import sys
 
-# 0. NÓ 
 
 class No:
     def __init__(self, valor=None, proximo=None):
@@ -15,6 +14,16 @@ class No:
 
     def __str__(self):
         return str(self.valor)
+    
+
+class Ocorrencia:
+    def __init__(self, id, logradouro, nivel_risco):
+        self.id = id
+        self.logradouro = logradouro
+        self.nivel_risco = nivel_risco
+
+    def __str__(self):
+        return f"ID: {self.id} | Local: {self.logradouro} | Risco: {self.nivel_risco}"
 
 
 # 1. FILA DE ATENDIMENTO
@@ -206,18 +215,8 @@ class GrafoPenedo:
                     fila_exploracao.append(novo_caminho)
         return None
 
-# OBJETO AUXILIAR PARA COMPOR OS DADOS DOS CHAMADOS
 
-class Ocorrencia:
-    def __init__(self, id, logradouro, nivel_risco):
-        self.id = id
-        self.logradouro = logradouro
-        self.nivel_risco = nivel_risco
-
-    def __str__(self):
-        return f"ID: {self.id} | Local: {self.logradouro} | Risco: {self.nivel_risco}"
-
-# INTERFACE DO TERMINAL INTEGRADA
+# INTERFACE
 
 class SistemaDefesaCivil:
     def __init__(self):
