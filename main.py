@@ -1,7 +1,8 @@
 # ==============================================================================
 # SISTEMA DE COMANDO E MONITORAMENTO TÁTICO: PENEDO
-# Disciplina: Programação 2 / Estruturas de Dados
-# Integrantes: Guilherme, Rayane Mayara, Saulo, Thaissa, Vadson
+# Disciplina: Programação 2
+# Integrantes: Guilherme dos Santos, José Vadson, Rayane Mayara, 
+#              Saulo Martins, Thaissa Aparecida
 # ==============================================================================
 
 import sys
